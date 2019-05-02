@@ -1,21 +1,8 @@
 
-# Boostrap 4 Github Pages
+# Gaffney's Numerical Assessment of Radness
 
-[![Build Status](https://travis-ci.org/nicolas-van/bootstrap-4-github-pages.svg?branch=master)](https://travis-ci.org/nicolas-van/bootstrap-4-github-pages)
+A tool used to measure your ego on the mountain or out in life.
 
-A [Bootstrap 4](https://getbootstrap.com/) start up project for [Github Pages](https://pages.github.com/) and [Jekyll](https://jekyllrb.com/).
+### Credits
 
-* A full Bootstrap 4 theme usable both on Github Pages and with a standalone Jekyll.
-* Recompiles Bootstrap from SCSS files, which allows to customize Bootstrap's variables and use Bootstrap themes.
-* Full support of Bootstrap's JavaScript plugins.
-* Supports all features of Github Pages and Jekyll.
-
-[See the website for demonstration and documentation](https://nicolas-van.github.io/bootstrap-4-github-pages/).
-
-## Contribution
-
-[See the contribution guide.](./CONTRIBUTING.md)
-
-## License
-
-[See the license file.](./LICENSE.md)
+This project was forked from [here](https://github.com/nicolas-van/bootstrap-4-github-pages). 
