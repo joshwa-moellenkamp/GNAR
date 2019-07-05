@@ -170,6 +170,12 @@ let gnarlies = {};
 let id = 0;
 let totalScore = 0;
 
+M.AutoInit();
+
+document.addEventListener('DOMContentLoaded', function() {
+  var instances = M.Pushpin.init(document.querySelector(".pushpin"), []);
+});
+
 loadEventListeners();
 
 for(let category in gnarliesSource) {
