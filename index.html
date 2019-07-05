@@ -17,7 +17,7 @@
 </head>
 <body>
   <div class="navbar-fixed">
-    <nav>
+    <nav class="teal">
       <div class="nav-wrapper center">
         <h5 id="points">Total points: 0</h1>
       </div>
@@ -28,12 +28,15 @@
       <span class="col s12">Mountain selection info, rules, etc.</span>
     </div>
     <div class="row card-panel">
-        <span class="col s12">Search functionality</span>
+      <div class="input-field col s12">
+        <span class="col s12">
+          <input type="text" name="filter" id="filter">
+          <label for="filter">Filter items...</label>
+        </span>
+        <ul class="collection"></ul>
       </div>
-
-        <div id="gnarlies"></div>
-
     </div>
+    <div id="gnarlies"></div>
   </div>
   <script
     src="https://code.jquery.com/jquery-3.2.1.js"
