@@ -165,7 +165,6 @@ class Gnarly {
 
 let gnarlies = {};
 let id = 0;
-let tableId = 0;
 let totalScore = 0;
 
 const gnarlyTable = document.getElementById('gnarlies');
@@ -173,26 +172,27 @@ const pointValue = document.getElementById('points');
 
 loadEventListeners();
 
-for(let category in gnarliesSource) {
+const ul = document.createElement("ul");
+ul.className = "collapsible";
 
+for(let category in gnarliesSource) {
   let values = gnarliesSource[category];
-  let tableString = `gnarlies=${tableId}`;
   const tableDiv = document.createElement("div");
-  tableDiv.className = tableString;
-  const h5 = document.createElement("h5");
-  h5.innerHTML = category
+  const li = document.createElement("li");
+  const divHeader = document.createElement("div")
+  divHeader.className = "collapsible-header";
+  divHeader.innerHTML = category
     .toLowerCase()
     .split(' ')
     .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join(' ');
-  tableDiv.appendChild(h5);
+  li.appendChild(divHeader);
+  // tableDiv.appendChild(h5);
 
   const table = document.createElement("table");
   const thead = document.createElement("thead");
   const tr = document.createElement("tr");
   const thButton = document.createElement("th");
-  thButton.className = "toggle";
-  thButton.innerHTML = '<i class="material-icons">expand_less</i>';
   tr.appendChild(thButton);
   const thGnarly = document.createElement("th");
   thGnarly.innerHTML = "Gnarly";
@@ -205,26 +205,41 @@ for(let category in gnarliesSource) {
   tr.appendChild(thDescription);
   thead.appendChild(tr);
   table.appendChild(thead);
-  tableDiv.appendChild(table);
 
   const tbody = document.createElement("tbody");
 
   for(let value in values) {
     val = values[value];
-    const tr = addGnarly(new Gnarly(category, value, val.points, val.description, val.other, tableId));
+    const tr = addGnarly(new Gnarly(category, value, val.points, val.description, val.other));
     tbody.appendChild(tr);
     id += 1; // TODO keep track of these better
   }
-  tableDiv.appendChild(tbody);
-  gnarlyTable.appendChild(tableDiv);
-  tableId += 1; // TODO this too
+  table.appendChild(tbody);
+
+  const divBody = document.createElement("div");
+  divBody.className = "collapsible-body";
+  const span = document.createElement("span");
+  span.appendChild(table);
+  divBody.appendChild(span);
+  li.appendChild(divBody);
+  ul.appendChild(li);
+
 }
+
+console.log(ul);
+
+gnarlyTable.appendChild(ul);
+
+M.AutoInit();
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.collapsible');
+  var instances = M.Collapsible.init(elems, options);
+});
 
 function loadEventListeners() {
   gnarlyTable.addEventListener('click', tally);
 }
 
-// TODO rename for show/hide
 function tally(e) {
   if(e.target.parentElement.classList.contains('checkmark')) {
     const row = e.target.parentElement.parentElement.parentElement;
@@ -248,11 +263,6 @@ function tally(e) {
     if(confirm(msg)) {
       updateScore(g.points);
     }
-  }
-
-  if(e.target.parentElement.classList.contains('toggle')) {
-    e.target.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[2].style.display = "none";
-    e.target.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerHTML = '<i class="material-icons">expand_more</i>';
   }
 }
 
@@ -289,7 +299,6 @@ function addGnarly(g) {
   tr.appendChild(thCheckmark);
   tr.appendChild(thGnarly);
   tr.appendChild(thPoints);
-  tr.appendChild(thCategory);
   tr.appendChild(thDescription);
 
   return tr;
