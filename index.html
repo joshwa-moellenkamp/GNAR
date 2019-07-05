@@ -13,21 +13,13 @@
     href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
     crossorigin="anonymous">
-  <!--<link rel="stylesheet" href="app.css">-->
   <title>GNAR: Gaffney's Numerical Assessment of Radness</title>
 </head>
 <body>
-  <!-- <nav class="pushpin">
-    <div class="nav-wrapper">
-      <div class="row">
-        <span id="points" class="col s12 white-text center">Total points: 0</span>
-      </div>
-    </div>
-  </nav> -->
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper center">
-        <h5>Total points: 0</h1>
+        <h5 id="points">Total points: 0</h1>
       </div>
     </nav>
   </div>
@@ -37,19 +29,7 @@
     </div>
     <div class="row card-panel">
       <div class="col s12">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Gnarly</th>
-              <th>Points</th>
-              <th>Category</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody id="gnarlies">
-          </tbody>
-        </table>
+        <div id="gnarlies"></div>
       </div>
     </div>
   </div>
