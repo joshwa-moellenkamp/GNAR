@@ -110,14 +110,25 @@ const gnarliesSource = {
     "Rodeo 720": { "points": 2000 },
   },
   "penalty": {
-    "Binding Butt": {
-      "description": "smashed butt on binding(s) after an aerial",
-      "points": -300
-    },
-    "Belly Flop": {
-      "description": "landed on your belly",
-      "points": -1000
-    }
+    "BB: Binding Butt": { "points": -300, "description": "smashed butt on binding(s) after an aerial" },
+    "BF: Belly Flop": { "points": -1000, "description": "landed on your belly" },
+    "CC: Cheating": { "points": -5000, "description": "were caught cheating by other players" },
+    "CK: Camel Back": { "points": -1500, "description": "wore a camelbak (editor's note: this rule sucks)" },
+    "DE: Day Ender": { "points": -3000, "description": "had a day-ending fall or injury" },
+    "FH: Fear of Heights": { "points": -500, "description": "lowered the sissy bar (editor's note: this rule sucks)" },
+    "FL: Flailing Lagger": { "points": -1000, "description": "crashed and were unable to keep up with the group" },
+    "GP: Get Poached": { "points": -3000, "description": "got poached while standing on a designated line getting ready to drop" },
+    "GG: Gaper Gap": { "points": -500, "description": "got caught with a gap between hat/helmet and goggles" },
+    "HC: Hip Check": { "points": -50, "description": "had a hip check" },
+    "KF: Knee to Face": { "points": -3000, "description": "took a knee to the face, with blood" },
+    "LS: Lose Ski": { "points": -1000, "description": "lost a ski in a crash. If both skiis lost, mark twice" },
+    "NP: Nice Patrol": { "points": -2000, "description": "got caught by ski patrol but they let you go" },
+    "PF: Punch Front": { "points": -500, "description": "unintentionally front flipped after landing" },
+    "PS: Pectoral Stretch": { "points": -200, "description": "had a major back-slap" },
+    "RB: Racer Boot": { "points": -2000, "description": "left your pant cuffs up with your top buckles showing" },
+    "SB: Snowball": { "points": -100, "description": "were tagged by a snowball mid-line" },
+    "TI: Total Idiot": { "points": -5000, "description": "lost your GNAR score sheet while riding (editor's note: or if you lost your phone)" },
+    "YS: Yard Sale": { "points": -3000, "description": "tomohawked leaving at least two pieces of equipment behind" }
   },
   "extra credit (unlimited)": {
     "A3: After 3:00 PM": {
@@ -253,3 +264,8 @@ function addGnarly(g) {
 // use this to actually drive how users can interact with things
 
 // collapse all gnarlies by category
+
+// points should be sticky so they can always be seen
+
+// 'groups' can veto or assign gnarlies/penalties by vote
+
