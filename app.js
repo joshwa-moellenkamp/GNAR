@@ -169,6 +169,8 @@ let totalScore = 0;
 
 const gnarlyTable = document.getElementById('gnarlies');
 const pointValue = document.getElementById('points');
+const filter = document.querySelector('#filter');
+const collection = document.querySelector('.collection');
 
 loadEventListeners();
 
@@ -210,7 +212,8 @@ for(let category in gnarliesSource) {
 
   for(let value in values) {
     val = values[value];
-    const tr = addGnarly(new Gnarly(category, value, val.points, val.description, val.other));
+    gnarlies[id] = new Gnarly(category, value, val.points, val.description, val.other);
+    const tr = generateTableItem(id);
     tbody.appendChild(tr);
     id += 1; // TODO keep track of these better
   }
@@ -223,21 +226,20 @@ for(let category in gnarliesSource) {
   divBody.appendChild(span);
   li.appendChild(divBody);
   ul.appendChild(li);
-
 }
-
-console.log(ul);
 
 gnarlyTable.appendChild(ul);
 
 M.AutoInit();
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.collapsible');
-  var instances = M.Collapsible.init(elems, options);
+  var instances = M.Collapsible.init(elems, []);
 });
 
 function loadEventListeners() {
   gnarlyTable.addEventListener('click', tally);
+  collection.addEventListener('click', tally);
+  filter.addEventListener('keyup', filterTasks);
 }
 
 function tally(e) {
@@ -271,9 +273,8 @@ function updateScore(score) {
   points.innerHTML = `Total score: ${totalScore}`;
 }
 
-function addGnarly(g) {
-  gnarlies[id] = g;
-
+function generateTableItem(id) {
+  const g = gnarlies[id];
   const thGnarly = document.createElement('th');
   thGnarly.appendChild(document.createTextNode(g.name));
 
@@ -290,7 +291,7 @@ function addGnarly(g) {
 
   const thCheckmark = document.createElement('th');
   const checkmark = document.createElement('a');
-  checkmark.className = 'checkmark';
+  checkmark.className = 'checkmark btn';
   checkmark.innerHTML = '<i class="material-icons">check</i>';
   thCheckmark.appendChild(checkmark);
 
@@ -304,13 +305,54 @@ function addGnarly(g) {
   return tr;
 }
 
-// Title, score, category, description
+function removeCollection() {
+  while(collection.firstChild)
+  {
+    collection.removeChild(collection.firstChild);
+  }
+}
 
-// sort by category and then title
+function filterTasks(e) {
+  removeCollection();
+
+  const text = e.target.value.toLowerCase();
+  if(text === '') {
+    return;
+  };
+
+  const tableDiv = document.createElement("div");
+  const li = document.createElement("li");
+
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const tr = document.createElement("tr");
+  const thButton = document.createElement("th");
+  tr.appendChild(thButton);
+  const thGnarly = document.createElement("th");
+  thGnarly.innerHTML = "Gnarly";
+  tr.appendChild(thGnarly);
+  const thPoints = document.createElement("th");
+  thPoints.innerHTML = "Value";
+  tr.appendChild(thPoints);
+  const thDescription = document.createElement("th");
+  thDescription.innerHTML = "Description";
+  tr.appendChild(thDescription);
+  thead.appendChild(tr);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+
+  for(let gnarly in gnarlies) {
+    if(gnarlies[gnarly].name.toLowerCase().indexOf(text) != -1) {
+      tbody.appendChild(generateTableItem(gnarly));
+    }
+  }
+
+  table.appendChild(tbody);
+  collection.appendChild(table);
+}
 
 // allow users to toggle to points sort
-
-// allow users to search for a specific gnarly
 
 // embed once per day, once per year data etc in the json
 // use this to actually drive how users can interact with things
@@ -323,6 +365,6 @@ function addGnarly(g) {
 
 // make the checkmarks buttons
 
-// use expand_more and expand_less to collapse the tables
+
 
 
