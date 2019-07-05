@@ -1,6 +1,3 @@
-const gnarlyTable = document.getElementById('gnarlies');
-const pointValue = document.getElementById('points');
-
 const gnarliesSource = {
   "line": {
     "Kangaroo Cornice": { "points": 100, "description": "front" },
@@ -133,7 +130,7 @@ const gnarliesSource = {
   "extra credit (unlimited)": {
     "A3: After 3:00 PM": {
       "points": 50,
-      "description": "perform any line after 3:00 PM"
+      "description": "perform any designated line after 3:00 PM"
     },
     "BN: Butt Naked (female)": {
       "points":  10000,
@@ -168,35 +165,70 @@ class Gnarly {
 
 let gnarlies = {};
 let id = 0;
+let tableId = 0;
 let totalScore = 0;
 
-M.AutoInit();
-
-document.addEventListener('DOMContentLoaded', function() {
-  var instances = M.Pushpin.init(document.querySelector(".pushpin"), []);
-});
+const gnarlyTable = document.getElementById('gnarlies');
+const pointValue = document.getElementById('points');
 
 loadEventListeners();
 
 for(let category in gnarliesSource) {
+
   let values = gnarliesSource[category];
+  let tableString = `gnarlies=${tableId}`;
+  const tableDiv = document.createElement("div");
+  tableDiv.className = tableString;
+  const h5 = document.createElement("h5");
+  h5.innerHTML = category
+    .toLowerCase()
+    .split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' ');
+  tableDiv.appendChild(h5);
+
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const tr = document.createElement("tr");
+  const thButton = document.createElement("th");
+  thButton.className = "toggle";
+  thButton.innerHTML = '<i class="material-icons">expand_less</i>';
+  tr.appendChild(thButton);
+  const thGnarly = document.createElement("th");
+  thGnarly.innerHTML = "Gnarly";
+  tr.appendChild(thGnarly);
+  const thPoints = document.createElement("th");
+  thPoints.innerHTML = "Value";
+  tr.appendChild(thPoints);
+  const thDescription = document.createElement("th");
+  thDescription.innerHTML = "Description";
+  tr.appendChild(thDescription);
+  thead.appendChild(tr);
+  table.appendChild(thead);
+  tableDiv.appendChild(table);
+
+  const tbody = document.createElement("tbody");
+
   for(let value in values) {
-    val = values[value]
-    addGnarly(new Gnarly(category, value, val.points, val.description, val.other))
+    val = values[value];
+    const tr = addGnarly(new Gnarly(category, value, val.points, val.description, val.other, tableId));
+    tbody.appendChild(tr);
     id += 1; // TODO keep track of these better
   }
+  tableDiv.appendChild(tbody);
+  gnarlyTable.appendChild(tableDiv);
+  tableId += 1; // TODO this too
 }
 
 function loadEventListeners() {
   gnarlyTable.addEventListener('click', tally);
 }
 
+// TODO rename for show/hide
 function tally(e) {
   if(e.target.parentElement.classList.contains('checkmark')) {
     const row = e.target.parentElement.parentElement.parentElement;
     const id = row.className.split('=').pop();
-    console.log(points);
-    console.log(points.innerHTML)
     let g = gnarlies[id]
     let msg;
     switch(g.category) {
@@ -216,6 +248,11 @@ function tally(e) {
     if(confirm(msg)) {
       updateScore(g.points);
     }
+  }
+
+  if(e.target.parentElement.classList.contains('toggle')) {
+    e.target.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[2].style.display = "none";
+    e.target.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerHTML = '<i class="material-icons">expand_more</i>';
   }
 }
 
@@ -255,7 +292,7 @@ function addGnarly(g) {
   tr.appendChild(thCategory);
   tr.appendChild(thDescription);
 
-  gnarlyTable.appendChild(tr);
+  return tr;
 }
 
 // Title, score, category, description
@@ -274,4 +311,9 @@ function addGnarly(g) {
 // points should be sticky so they can always be seen
 
 // 'groups' can veto or assign gnarlies/penalties by vote
+
+// make the checkmarks buttons
+
+// use expand_more and expand_less to collapse the tables
+
 
