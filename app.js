@@ -205,24 +205,8 @@ for(let category in gnarliesSource) {
     .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join(' ');
   li.appendChild(divHeader);
-  // tableDiv.appendChild(h5);
 
-  const table = document.createElement("table");
-  const thead = document.createElement("thead");
-  const tr = document.createElement("tr");
-  const thButton = document.createElement("th");
-  tr.appendChild(thButton);
-  const thGnarly = document.createElement("th");
-  thGnarly.innerHTML = "Gnarly";
-  tr.appendChild(thGnarly);
-  const thPoints = document.createElement("th");
-  thPoints.innerHTML = "Value";
-  tr.appendChild(thPoints);
-  const thDescription = document.createElement("th");
-  thDescription.innerHTML = "Description";
-  tr.appendChild(thDescription);
-  thead.appendChild(tr);
-  table.appendChild(thead);
+  const table = makeGnarlyTable();
 
   const tbody = document.createElement("tbody");
 
@@ -253,34 +237,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadEventListeners() {
-  gnarlyTable.addEventListener('click', tally);
-  collection.addEventListener('click', tally);
   filter.addEventListener('keyup', filterTasks);
 }
 
-function tally(e) {
-  if(e.target.parentElement.classList.contains('checkmark')) {
-    const row = e.target.parentElement.parentElement.parentElement;
-    const id = row.className.split('=').pop();
-    let g = gnarlies[id]
-    let msg;
-    switch(g.category) {
-      case "line": {
-        msg = `Did you claim ${g.description} line '${g.name}'?`;
-        break;
-      }
-      case "penalty": {
-        msg = `Do you deserve penalty '${g.name}' because you '${g.description}'?`;
-        break;
-      }
-      case "trick bonus": {
-        msg = `Did you earn trick bonus '${g.name}'?`;
-        break;
-      }
+function tally(id) {
+  let g = gnarlies[id];
+  console.log(g);
+  let msg;
+  switch(g.category) {
+    case "line": {
+      msg = `Did you claim ${g.description} line '${g.name}'?`;
+      break;
     }
-    if(confirm(msg)) {
-      updateScore(g.points);
+    case "penalty": {
+      msg = `Do you deserve penalty '${g.name}' because you '${g.description}'?`;
+      break;
     }
+    case "trick bonus": {
+      msg = `Did you earn trick bonus '${g.name}'?`;
+      break;
+    }
+  }
+  if(confirm(msg)) {
+    updateScore(g.points);
   }
 }
 
@@ -309,10 +288,15 @@ function generateTableItem(id) {
   const checkmark = document.createElement('a');
   checkmark.className = 'checkmark btn';
   checkmark.innerHTML = '<i class="material-icons">check</i>';
+  
+  checkmark.addEventListener('click', function() {
+    tally(id);
+  }, false);
+
   thCheckmark.appendChild(checkmark);
 
   const tr = document.createElement('tr');
-  tr.className = `collection-item id=${id}`;
+  tr.className = 'collection-item';
   tr.appendChild(thCheckmark);
   tr.appendChild(thGnarly);
   tr.appendChild(thPoints);
@@ -328,6 +312,10 @@ function removeCollection() {
   }
 }
 
+function dothing(e) {
+  console.log("dothing entered")
+}
+
 function filterTasks(e) {
   removeCollection();
 
@@ -339,6 +327,21 @@ function filterTasks(e) {
   const tableDiv = document.createElement("div");
   const li = document.createElement("li");
 
+  const table = makeGnarlyTable();
+
+  const tbody = document.createElement("tbody");
+
+  for(let gnarly in gnarlies) {
+    if(gnarlies[gnarly].name.toLowerCase().indexOf(text) != -1) {
+      tbody.appendChild(generateTableItem(gnarly));
+    }
+  }
+
+  table.appendChild(tbody);
+  collection.appendChild(table);
+}
+
+function makeGnarlyTable() {
   const table = document.createElement("table");
   const thead = document.createElement("thead");
   const tr = document.createElement("tr");
@@ -356,16 +359,7 @@ function filterTasks(e) {
   thead.appendChild(tr);
   table.appendChild(thead);
 
-  const tbody = document.createElement("tbody");
-
-  for(let gnarly in gnarlies) {
-    if(gnarlies[gnarly].name.toLowerCase().indexOf(text) != -1) {
-      tbody.appendChild(generateTableItem(gnarly));
-    }
-  }
-
-  table.appendChild(tbody);
-  collection.appendChild(table);
+  return table;
 }
 
 // allow users to toggle to points sort
