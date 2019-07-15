@@ -24,19 +24,72 @@
     </nav>
   </div>
   <div class="container">
+    <div id="gnarlies"></div>
     <div class="row card-panel">
-      <span class="col s12">Mountain selection info, rules, etc.</span>
-    </div>
-    <div class="row card-panel">
-      <div class="input-field col s12">
-        <span class="col s12">
-          <input type="text" name="filter" id="filter">
-          <label for="filter">Search for an item...</label>
-        </span>
+      <div class="input-field">
+        <input type="text" name="filter" id="filter">
+        <label for="filter">Search for an item...</label>
         <ul class="collection"></ul>
       </div>
     </div>
-    <div id="gnarlies"></div>
+    <div>
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header">Collected Gnarlies</div>
+          <div class="collapsible-body">
+            <span id="collectedGnarlies">None so far</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <button data-target="background" class="btn col s2 offset-s1 modal-trigger">Background</button>
+      <button data-target="rules" class="btn col s2 offset-s2 modal-trigger">Rules</button>
+      <button data-target="links" class="btn col s2 offset-s2 modal-trigger">Links</button>
+    </div>
+  </div>
+  <div id="background" class="modal">
+    <div class="modal-content">
+      <h4>Background</h4>
+      <p>
+        Created by the late Shane McConkey and Dr. Robb Gaffney, GNAR (Gaffney's Numerical Assessment of Radness) is a response to the ski industry taking itself altogether too seriously.
+        Earn points for riding particularly rad lines or achieving particularly hilarious tasks. Lose points for doing anything uncharictaristically lame. Losers pay for beer.
+      </p>
+      <p>
+        This game is meant to be played in good fun. Don't lose your pass, get arrested, hurt anyone else on the mountain, or act like a douchebag.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-teal btn-flat">Close</a>
+    </div>
+  </div>
+  <div id="rules" class="modal">
+    <div class="modal-content">
+      <h4>Rules</h4>
+      <p>Eventually these will all be built into the scoring provided by the application.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-teal btn-flat">Close</a>
+    </div>
+  </div>
+  <div id="links" class="modal">
+    <div class="modal-content">
+      <h4>Links</h4>
+      <ul>
+        <li>
+          <a href="http://simplemethod.com/GNAR.pdf" target="_blank" rel="noopener noreferrer">Adapted GNAR Rules for Vail (PDF)</a>
+        </li>
+        <li>
+          <a href="https://www.vail.com/the-mountain/about-the-mountain/trail-map.aspx" target="_blank" rel="noopener noreferrer">Vail Trailmaps</a>
+        </li>
+        <li>
+          <a href="http://squallywood.com/" target="_blank" rel="noopener noreferrer">Squallywood</a>
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-teal btn-flat">Close</a>
+    </div>
   </div>
   <script
     src="https://code.jquery.com/jquery-3.2.1.js"

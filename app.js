@@ -135,9 +135,9 @@ const gnarliesSource = {
     "EG: Ego Claim": { "points": 500, "description": "after skiing a designated line, told a group of strangers who were watching \"I'm the best skiier on the mountain!\"" },
     "FB: F. Bag": { "points": 50, "description": "be the first to spot someone wearing a one-piece suit" },
     "FT: F. Bag Tag": { "points": 100, "description": "be the first to touch someone wearing a one-piece suit" },
-    "FC: Fart Claim": { "points": 500, "description": "produce a smelly fart in a crowded gondola or bus and loudly state, \"That was me!\"" },
+    "FF: Fart Claim": { "points": 500, "description": "produce a smelly fart in a crowded gondola or bus and loudly state, \"That was me!\"" },
     "LR: Lagger": { "points": 200, "description": "lag behind and hold up the group" },
-    "OS: Old School": { "points": 200, "description": "Successfully complete a designated line wearing skiing 215 cm or longer or an old school snowboard" },
+    "OS: Old School": { "points": 200, "description": "Successfully complete a designated line wearing skiis 215 cm or longer (or an old school snowboard)" },
     "PW: Pole Whacker": { "points": 200, "description": "vigorously whack your pole above a line for at least 30 seconds" },
     "RA: Rope Air": { "points": 200, "description": "jump over any (above ground) rope" },
     "RY: Radness Yell": { "points": 200, "description": "before dropping into a line, vigorously wave arms while yelling at the top of lungs, \"Hey! Check me out! I'm going to rip the shit out of this!\"" },
@@ -148,17 +148,17 @@ const gnarliesSource = {
   },
   "extra credit (daily)": {
     "BT: Bra Tree": { "points": 1000, "description": "remove underwear and succeed in tossing it onto the bra tree" },
-    "CB: Cook Brekkie": { "points": 5000, "description": "cook breakfast with a camping stove in the Vista Bahn line on a powder day. Must get first chair" },
+    "CB: Cook Brekkie": { "points": 5000, "description": "cook breakfast with a camping stove in line on a powder day. Must get first chair" },
     "EB: Extreme Brag": { "points": 1000, "description": "at Belle's Camp, brag to at least 5 people about how rad you got today" },
-    "FV: First Vista Bahn Chair": { "points": 5000, "description": "first Vista Bahn chair on a powder day" },
+    "FC: First Chair": { "points": 5000, "description": "first chair on a powder day" },
     "FL: Froot Lingerie": { "points": 10000, "description": "froot boot through the terrain park wearing lengerie only for three runs" },
     "GT: Goggle Tan": { "points": 500, "description": "ask any stranger which player in the group has the darkest, most defined goggle tan. Winner gets points" },
-    "JB: Jog Bridge Street": { "points": 500, "description": "jog from the transportation center to the Vista Bahn maze" },
+    "JB: Jog Bridge Street": { "points": 500, "description": "jog from the transportation center to the mountain. Must carry gear" },
     "JG: John Garnsey High-Five": { "points": 2000, "description": "give Vail Co-President John Garnsey a high-five" },
     "NL: Nug to Liftie": { "points": 1000, "description": "give any liftie a phat nug" },
-    "PC: Pro Call Out": { "points": 500, "description": "to any pro, yell \"Hey (name), I can't believe you're a pro. I'm totally better than you!\"" },
+    "PC: Pro Call Out": { "points": 500, "description": "to any pro, yell \"I can't believe you're a pro. I'm better than you!\"" },
     "PP: Party Police": { "points": 1000, "description": "detect a group smoking marijuana and politely insist they smoke elsewhere next time" },
-    "TB: Ten Bucks": { "points": 1500, "description": "give out at least 5 red bulls in the VB line before the lift opens. If sponsored by red bull, must also give out $2 with each can" },
+    "TB: Ten Bucks": { "points": 1500, "description": "give out at least 5 energy drinks or beers that you personally paid for in a lift line before opening" },
   },
   "extra credit (yearly)": {
     "FY: First of the year": { "points": 200, "description": "the first person to ski a designated line this year" },
@@ -179,11 +179,13 @@ class Gnarly {
   }
 }
 
-let gnarlies = {};
+let gnarlies = [];
+let earnedGnarlies = new Map();
 let id = 0;
 let score = 0;
 
 const gnarlyTable = document.getElementById('gnarlies');
+const collectedGnarlies = document.getElementById('collectedGnarlies');
 const pointValue = document.getElementById('points');
 const filter = document.querySelector('#filter');
 const collection = document.querySelector('.collection');
@@ -195,7 +197,6 @@ ul.className = "collapsible";
 
 for(let category in gnarliesSource) {
   let values = gnarliesSource[category];
-  const tableDiv = document.createElement("div");
   const li = document.createElement("li");
   const divHeader = document.createElement("div")
   divHeader.className = "collapsible-header";
@@ -212,7 +213,7 @@ for(let category in gnarliesSource) {
 
   for(let value in values) {
     val = values[value];
-    gnarlies[id] = new Gnarly(category, value, val.points, val.description, val.other);
+    gnarlies.push(new Gnarly(category, value, val.points, val.description, val.other));
     const tr = generateTableItem(id);
     tbody.appendChild(tr);
     id += 1; // TODO keep track of these better
@@ -234,6 +235,9 @@ M.AutoInit();
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.collapsible');
   var instances = M.Collapsible.init(elems, []);
+  var elems2 = document.querySelectorAll('.modal');
+  var instances2 = M.Modal.init(elems2, []);
+  updateCollectedGnarlies();
 });
 
 function loadEventListeners() {
@@ -264,34 +268,60 @@ function tally(id) {
   }
 }
 
-function updateScore(score) {
-  score += score;
+function updateCollectedGnarlies() {
+  if(earnedGnarlies.length === 0)
+  {
+    collectedGnarlies.innerHTML = "None so far";
+    return;
+  }
+  collectedGnarlies.innerHTML = "";
+  const list = document.createElement("ul");
+  list.className = "collection";
+  for (var [key, value] of earnedGnarlies) {
+    const listItem = document.createElement('li');
+    listItem.className = "collection-item";
+    listItem.innerHTML = `${key.name}<a class=\"secondary-content\">x${value}</a>`;
+    list.appendChild(listItem);
+  }
+  collectedGnarlies.appendChild(list);
+}
+
+function processGnarly(id) {
+  if(!earnedGnarlies.has(gnarlies[id])){
+    earnedGnarlies.set(gnarlies[id], 1)
+  } else {
+    const numTimesEarned = earnedGnarlies.get(gnarlies[id]);
+    earnedGnarlies.set(gnarlies[id], numTimesEarned + 1);
+  }
+  updateCollectedGnarlies();
+  const itemPoints = gnarlies[id].points;
+  score += itemPoints;
   points.innerHTML = `GNAR Factor: ${score}`;
 }
 
 function generateTableItem(id) {
   const g = gnarlies[id];
-  const thGnarly = document.createElement('th');
+  const thGnarly = document.createElement('td');
   thGnarly.appendChild(document.createTextNode(g.name));
 
-  const thPoints = document.createElement('th');
+  const thPoints = document.createElement('td');
   thPoints.appendChild(document.createTextNode(g.points));
 
-  const thCategory = document.createElement('th');
+  const thCategory = document.createElement('td');
   thCategory.appendChild(document.createTextNode(g.category));
 
-  const thDescription = document.createElement('th');
+  const thDescription = document.createElement('td');
   if(g.description != undefined) {
     thDescription.appendChild(document.createTextNode(g.description));
   }
 
-  const thCheckmark = document.createElement('th');
+  const thCheckmark = document.createElement('td');
   const checkmark = document.createElement('a');
   checkmark.className = 'checkmark btn';
   checkmark.innerHTML = '<i class="material-icons">check</i>';
   
   checkmark.addEventListener('click', function() {
-    tally(id);
+    processGnarly(id)
   }, false);
 
   thCheckmark.appendChild(checkmark);
@@ -336,6 +366,7 @@ function filterTasks(e) {
 
 function makeGnarlyTable() {
   const table = document.createElement("table");
+  table.className = "striped";
   const thead = document.createElement("thead");
   const tr = document.createElement("tr");
   const thButton = document.createElement("th");
