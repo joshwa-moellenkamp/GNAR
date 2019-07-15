@@ -128,28 +128,44 @@ const gnarliesSource = {
     "YS: Yard Sale": { "points": -3000, "description": "tomohawked leaving at least two pieces of equipment behind" }
   },
   "extra credit (unlimited)": {
-    "A3: After 3:00 PM": {
-      "points": 50,
-      "description": "perform any designated line after 3:00 PM"
-    },
-    "BN: Butt Naked (female)": {
-      "points":  10000,
-      "description": "if jailed, these points are lost"
-    },
-    "BN: Butt Naked (male)": {
-      "points": 5000,
-      "description": "if jailed, these points are lost"
-    },
-    "CG: Cat Track Gap": {
-      "points": 300,
-      "description": "gap jump a cat track"
-    }
+    "A3: After 3:00 PM": { "points": 50, "description": "perform any designated line after 3:00 PM" },
+    "BN: Butt Naked (female)": { "points":  10000, "description": "if jailed, these points are lost" },
+    "BN: Butt Naked (male)": { "points": 5000, "description": "if jailed, these points are lost" },
+    "CG: Cat Track Gap": { "points": 300, "description": "gap jump a cat track" },
+    "EG: Ego Claim": { "points": 500, "description": "after skiing a designated line, told a group of strangers who were watching \"I'm the best skiier on the mountain!\"" },
+    "FB: F. Bag": { "points": 50, "description": "be the first to spot someone wearing a one-piece suit" },
+    "FT: F. Bag Tag": { "points": 100, "description": "be the first to touch someone wearing a one-piece suit" },
+    "FC: Fart Claim": { "points": 500, "description": "produce a smelly fart in a crowded gondola or bus and loudly state, \"That was me!\"" },
+    "LR: Lagger": { "points": 200, "description": "lag behind and hold up the group" },
+    "OS: Old School": { "points": 200, "description": "Successfully complete a designated line wearing skiing 215 cm or longer or an old school snowboard" },
+    "PW: Pole Whacker": { "points": 200, "description": "vigorously whack your pole above a line for at least 30 seconds" },
+    "RA: Rope Air": { "points": 200, "description": "jump over any (above ground) rope" },
+    "RY: Radness Yell": { "points": 200, "description": "before dropping into a line, vigorously wave arms while yelling at the top of lungs, \"Hey! Check me out! I'm going to rip the shit out of this!\"" },
+    "SB: Snowball": { "points": 200, "description": "hit rider, attempting one of the designated lines, with a snowball. Rider must have pushed off" },
+    "SC: Steal Clothes": { "points": 200, "description": "steal the clothes of a person doing a BN and make them ride back to the base of the chair lift" },
+    "TS: Talk Smack": { "points": 200, "description": "in a serious tone, without laughing, and just prior to dropping into a designated line, tell a stranger next to you, \"I'm better than you!\"" },
+    "UL: Urinate Line": { "points": 200, "description": "on a line rated 700 or higher, stop mid-line and urinate. Must empty bladder" }
   },
   "extra credit (daily)": {
-    "EB: Extreme Brag": {
-      "points": 1000,
-      "description": "at Belle's Camp, brag to at least 5 people about how rad you got today"
-    },
+    "BT: Bra Tree": { "points": 1000, "description": "remove underwear and succeed in tossing it onto the bra tree" },
+    "CB: Cook Brekkie": { "points": 5000, "description": "cook breakfast with a camping stove in the Vista Bahn line on a powder day. Must get first chair" },
+    "EB: Extreme Brag": { "points": 1000, "description": "at Belle's Camp, brag to at least 5 people about how rad you got today" },
+    "FV: First Vista Bahn Chair": { "points": 5000, "description": "first Vista Bahn chair on a powder day" },
+    "FL: Froot Lingerie": { "points": 10000, "description": "froot boot through the terrain park wearing lengerie only for three runs" },
+    "GT: Goggle Tan": { "points": 500, "description": "ask any stranger which player in the group has the darkest, most defined goggle tan. Winner gets points" },
+    "JB: Jog Bridge Street": { "points": 500, "description": "jog from the transportation center to the Vista Bahn maze" },
+    "JG: John Garnsey High-Five": { "points": 2000, "description": "give Vail Co-President John Garnsey a high-five" },
+    "NL: Nug to Liftie": { "points": 1000, "description": "give any liftie a phat nug" },
+    "PC: Pro Call Out": { "points": 500, "description": "to any pro, yell \"Hey (name), I can't believe you're a pro. I'm totally better than you!\"" },
+    "PP: Party Police": { "points": 1000, "description": "detect a group smoking marijuana and politely insist they smoke elsewhere next time" },
+    "TB: Ten Bucks": { "points": 1500, "description": "give out at least 5 red bulls in the VB line before the lift opens. If sponsored by red bull, must also give out $2 with each can" },
+  },
+  "extra credit (yearly)": {
+    "FY: First of the year": { "points": 200, "description": "the first person to ski a designated line this year" },
+    "BS: Backwards Ski": { "points": 7000, "description": "ski backwards from PHQ down Riva to the base of Chair 6 during Christmas week, President's Day week, or Easter week after 3:30 PM" },
+    "LF: Lost and Found": { "points": 10000, "description": "collect an entire outfit from lost & found, and wear it all day" },
+    "ML: Mom Line": { "points": 7000, "description": "talking to your mother on a cell phone (no headset), stick a 500+ line" },
+    "MS: Mono Skiing": { "points": 15000, "description": "go monoskiing all day long" }
   }
 };
 
@@ -270,7 +286,7 @@ function tally(e) {
 
 function updateScore(score) {
   totalScore += score;
-  points.innerHTML = `Total score: ${totalScore}`;
+  points.innerHTML = `GNAR Factor: ${totalScore}`;
 }
 
 function generateTableItem(id) {
@@ -364,6 +380,8 @@ function filterTasks(e) {
 // 'groups' can veto or assign gnarlies/penalties by vote
 
 // make the checkmarks buttons
+
+// does john garnsey still work for vail?
 
 
 
