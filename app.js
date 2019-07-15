@@ -181,7 +181,7 @@ class Gnarly {
 
 let gnarlies = {};
 let id = 0;
-let totalScore = 0;
+let score = 0;
 
 const gnarlyTable = document.getElementById('gnarlies');
 const pointValue = document.getElementById('points');
@@ -242,21 +242,22 @@ function loadEventListeners() {
 
 function tally(id) {
   let g = gnarlies[id];
-  console.log(g);
   let msg;
   switch(g.category) {
-    case "line": {
+    case "line":
       msg = `Did you claim ${g.description} line '${g.name}'?`;
       break;
-    }
-    case "penalty": {
-      msg = `Do you deserve penalty '${g.name}' because you '${g.description}'?`;
+    case "penalty":
+      msg = `Do you deserve penalty '${g.name.split(':')[1].trim()}' because you '${g.description}'?`;
       break;
-    }
-    case "trick bonus": {
+    case "trick bonus":
       msg = `Did you earn trick bonus '${g.name}'?`;
       break;
-    }
+    case "extra credit (unlimited)":
+    case "extra credit (yearly)":
+    case "extra credit (daily)":
+      msg = `Did you earn extra credit item '${g.name.split(':')[1].trim()}'?`;
+      break;
   }
   if(confirm(msg)) {
     updateScore(g.points);
@@ -264,8 +265,8 @@ function tally(id) {
 }
 
 function updateScore(score) {
-  totalScore += score;
-  points.innerHTML = `GNAR Factor: ${totalScore}`;
+  score += score;
+  points.innerHTML = `GNAR Factor: ${score}`;
 }
 
 function generateTableItem(id) {
@@ -312,10 +313,6 @@ function removeCollection() {
   }
 }
 
-function dothing(e) {
-  console.log("dothing entered")
-}
-
 function filterTasks(e) {
   removeCollection();
 
@@ -324,11 +321,7 @@ function filterTasks(e) {
     return;
   };
 
-  const tableDiv = document.createElement("div");
-  const li = document.createElement("li");
-
   const table = makeGnarlyTable();
-
   const tbody = document.createElement("tbody");
 
   for(let gnarly in gnarlies) {
@@ -367,13 +360,7 @@ function makeGnarlyTable() {
 // embed once per day, once per year data etc in the json
 // use this to actually drive how users can interact with things
 
-// collapse all gnarlies by category
-
-// points should be sticky so they can always be seen
-
 // 'groups' can veto or assign gnarlies/penalties by vote
-
-// make the checkmarks buttons
 
 // does john garnsey still work for vail?
 
