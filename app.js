@@ -384,15 +384,6 @@ function makeGnarlyTable() {
   return table;
 }
 
-// allow users to toggle to points sort
-
-// embed once per day, once per year data etc in the json
-// use this to actually drive how users can interact with things
-
-// 'groups' can veto or assign gnarlies/penalties by vote
-
-// does john garnsey still work for vail?
-
 
 
 
