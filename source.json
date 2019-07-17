@@ -90,10 +90,6 @@
     "900": { "points": 5000 },
     "Switch 900": { "points": 5000 },
     "1080": { "points": 10000 },
-    /**
-     * "Switch 1080": { "points": "Yeah Right!" },
-     * "1440": { "points": "Yer Dreamin!" },
-     */
     "Front Flip": { "points": 500 },
     "Double Front": { "points": 1500 },
     "Back Flip": { "points": 500 },
