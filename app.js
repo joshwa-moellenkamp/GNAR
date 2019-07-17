@@ -233,10 +233,8 @@ gnarlyTable.appendChild(ul);
 
 M.AutoInit();
 document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.collapsible');
-  var instances = M.Collapsible.init(elems, []);
-  var elems2 = document.querySelectorAll('.modal');
-  var instances2 = M.Modal.init(elems2, []);
+  M.Collapsible.init(document.querySelectorAll('.collapsible'), []);
+  M.Modal.init(document.querySelectorAll('.modal'), []);
   updateCollectedGnarlies();
 });
 
