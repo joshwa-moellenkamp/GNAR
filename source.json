@@ -104,7 +104,7 @@
     "Misty 540": { "points": 2000 },
     "Misty 720": { "points": 1500 },
     "Rodeo 540": { "points": 2000 },
-    "Rodeo 720": { "points": 2000 },
+    "Rodeo 720": { "points": 2000 }
   },
   "penalty": {
     "BB: Binding Butt": { "points": -300, "description": "smashed butt on binding(s) after an aerial" },
@@ -158,7 +158,7 @@
     "NL: Nug to Liftie": { "points": 1000, "description": "give any liftie a phat nug" },
     "PC: Pro Call Out": { "points": 500, "description": "to any pro, yell \"I can't believe you're a pro. I'm better than you!\"" },
     "PP: Party Police": { "points": 1000, "description": "detect a group smoking marijuana and politely insist they smoke elsewhere next time" },
-    "TB: Ten Bucks": { "points": 1500, "description": "give out at least 5 energy drinks or beers that you personally paid for in a lift line before opening" },
+    "TB: Ten Bucks": { "points": 1500, "description": "give out at least 5 energy drinks or beers that you personally paid for in a lift line before opening" }
   },
   "extra credit (yearly)": {
     "FY: First of the year": { "points": 200, "description": "the first person to ski a designated line this year" },
