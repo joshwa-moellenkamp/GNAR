@@ -70,7 +70,7 @@
     "Steep & Deep (with 2 cliffs)": { "points": 800, "description": "Blue Sky Basin" },
     "Lover's Leap (no cornice)": { "points": 200, "description": "Blue Sky Basin" },
     "Lover's Leap (with cornice huck)": { "points": 600, "description": "Blue Sky Basin" },
-    "Heavy Metal": { "points": 100, "description": "Blue Sky Basin" },
+    "Heavy Metal": { "points": 100, "description": "Blue Sky Basin" }
   },
   "trick bonus":
   {

@@ -1,3 +1,9 @@
+const gnarliesSource = fetch('https://joshwa-moellenkamp.github.io/GNAR/source.json')
+  .then(res => res.json())
+  .then((out) => {
+    console.log('out');
+  }).catch(err => console.error(err));
+
 class Gnarly {
   constructor(category, name, points, description, other) {
     this.category = category;
