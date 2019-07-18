@@ -9,15 +9,21 @@ class Gnarly {
 }
 
 localStorage = window.localStorage;
+let gnarlies = [];
+let earnedGnarlies = new Map();
+let score = 0;
+const gnarlyTable = document.getElementById('gnarlies');
+const collectedGnarlies = document.getElementById('collectedGnarlies');
+const pointValue = document.getElementById('points');
+const filter = document.querySelector('#filter');
+const collection = document.querySelector('.collection');
 
-M.AutoInit();
 document.addEventListener('DOMContentLoaded', function() {
-
   loadEventListeners();
   startup();
   build();
   updateCollectedGnarlies();
-
+  M.AutoInit();
   M.Collapsible.init(document.querySelectorAll('.collapsible'), []);
   M.Modal.init(document.querySelectorAll('.modal'), []);
 });
@@ -37,18 +43,8 @@ function startup() {
   }
 }
 
-let gnarlies = [];
-let earnedGnarlies = new Map();
-let score = 0;
-const gnarlyTable = document.getElementById('gnarlies');
-const collectedGnarlies = document.getElementById('collectedGnarlies');
-const pointValue = document.getElementById('points');
-const filter = document.querySelector('#filter');
-const collection = document.querySelector('.collection');
-
 function build() {
   gnarliesSource = JSON.parse(localStorage.getItem('gnarliesSource'));
-  
   let id = 0;
   const ul = document.createElement("ul");
   ul.className = "collapsible";
@@ -64,7 +60,6 @@ function build() {
     li.appendChild(divHeader);
     const table = makeGnarlyTable();
     const tbody = document.createElement("tbody");
-
     for(item in gnarliesSource[category]) {
       var value = gnarliesSource[category][item];
       gnarlies.push(new Gnarly(category, value.name, value.points, value.description, value.other));
@@ -73,7 +68,6 @@ function build() {
       id += 1; // TODO keep track of these better
     }
     table.appendChild(tbody);
-
     const divBody = document.createElement("div");
     divBody.className = "collapsible-body";
     const span = document.createElement("span");
@@ -82,7 +76,6 @@ function build() {
     li.appendChild(divBody);
     ul.appendChild(li);
   }
-
   gnarlyTable.appendChild(ul);
 }
 
@@ -125,36 +118,26 @@ function generateTableItem(id) {
   const g = gnarlies[id];
   const thGnarly = document.createElement('td');
   thGnarly.appendChild(document.createTextNode(g.name));
-
   const thPoints = document.createElement('td');
   thPoints.appendChild(document.createTextNode(g.points));
-
   const thCategory = document.createElement('td');
   thCategory.appendChild(document.createTextNode(g.category));
-
   const thDescription = document.createElement('td');
   if(g.description != undefined) {
     thDescription.appendChild(document.createTextNode(g.description));
   }
-
   const thCheckmark = document.createElement('td');
   const checkmark = document.createElement('a');
   checkmark.className = 'checkmark btn';
   checkmark.innerHTML = '<i class="material-icons">check</i>';
-  
-  checkmark.addEventListener('click', function() {
-    processGnarly(id)
-  }, false);
-
+  checkmark.addEventListener('click', function() { processGnarly(id) }, false);
   thCheckmark.appendChild(checkmark);
-
   const tr = document.createElement('tr');
   tr.className = 'collection-item';
   tr.appendChild(thCheckmark);
   tr.appendChild(thGnarly);
   tr.appendChild(thPoints);
   tr.appendChild(thDescription);
-
   return tr;
 }
 
@@ -167,21 +150,17 @@ function removeCollection() {
 
 function filterTasks(e) {
   removeCollection();
-
   const text = e.target.value.toLowerCase();
   if(text === '') {
     return;
   };
-
   const table = makeGnarlyTable();
   const tbody = document.createElement("tbody");
-
   for(let gnarly in gnarlies) {
     if(gnarlies[gnarly].name.toLowerCase().indexOf(text) != -1) {
       tbody.appendChild(generateTableItem(gnarly));
     }
   }
-
   table.appendChild(tbody);
   collection.appendChild(table);
 }
@@ -204,10 +183,5 @@ function makeGnarlyTable() {
   tr.appendChild(thDescription);
   thead.appendChild(tr);
   table.appendChild(thead);
-
   return table;
 }
-
-
-
-
