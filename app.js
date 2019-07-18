@@ -1,9 +1,3 @@
-const gnarliesSource = fetch('https://joshwa-moellenkamp.github.io/GNAR/source.json')
-  .then(res => res.json())
-  .then((out) => {
-    console.log('out');
-  }).catch(err => console.error(err));
-
 class Gnarly {
   constructor(category, name, points, description, other) {
     this.category = category;
@@ -14,64 +8,83 @@ class Gnarly {
   }
 }
 
+localStorage = window.localStorage;
+
+M.AutoInit();
+document.addEventListener('DOMContentLoaded', function() {
+
+  loadEventListeners();
+  startup();
+  build();
+  updateCollectedGnarlies();
+
+  M.Collapsible.init(document.querySelectorAll('.collapsible'), []);
+  M.Modal.init(document.querySelectorAll('.modal'), []);
+});
+
+function startup() {
+  if(localStorage.getItem('gnarliesSource') === null) {
+    fetch('https://joshwa-moellenkamp.github.io/GNAR/source.json')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(json) {
+      localStorage.setItem('gnarliesSource', JSON.stringify(json));
+    })
+    .catch(function() {
+      // TODO
+    });
+  }
+}
+
 let gnarlies = [];
 let earnedGnarlies = new Map();
-let id = 0;
 let score = 0;
-
 const gnarlyTable = document.getElementById('gnarlies');
 const collectedGnarlies = document.getElementById('collectedGnarlies');
 const pointValue = document.getElementById('points');
 const filter = document.querySelector('#filter');
 const collection = document.querySelector('.collection');
 
-loadEventListeners();
+function build() {
+  gnarliesSource = JSON.parse(localStorage.getItem('gnarliesSource'));
+  
+  let id = 0;
+  const ul = document.createElement("ul");
+  ul.className = "collapsible";
+  for(var category in gnarliesSource) {
+    const li = document.createElement("li");
+    const divHeader = document.createElement("div")
+    divHeader.className = "collapsible-header";
+    divHeader.innerHTML = category
+      .toLowerCase()
+      .split(' ')
+      .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+      .join(' ');
+    li.appendChild(divHeader);
+    const table = makeGnarlyTable();
+    const tbody = document.createElement("tbody");
 
-const ul = document.createElement("ul");
-ul.className = "collapsible";
+    for(item in gnarliesSource[category]) {
+      var value = gnarliesSource[category][item];
+      gnarlies.push(new Gnarly(category, value.name, value.points, value.description, value.other));
+      const tr = generateTableItem(id);
+      tbody.appendChild(tr);
+      id += 1; // TODO keep track of these better
+    }
+    table.appendChild(tbody);
 
-for(let category in gnarliesSource) {
-  let values = gnarliesSource[category];
-  const li = document.createElement("li");
-  const divHeader = document.createElement("div")
-  divHeader.className = "collapsible-header";
-  divHeader.innerHTML = category
-    .toLowerCase()
-    .split(' ')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    .join(' ');
-  li.appendChild(divHeader);
-
-  const table = makeGnarlyTable();
-
-  const tbody = document.createElement("tbody");
-
-  for(let value in values) {
-    val = values[value];
-    gnarlies.push(new Gnarly(category, value, val.points, val.description, val.other));
-    const tr = generateTableItem(id);
-    tbody.appendChild(tr);
-    id += 1; // TODO keep track of these better
+    const divBody = document.createElement("div");
+    divBody.className = "collapsible-body";
+    const span = document.createElement("span");
+    span.appendChild(table);
+    divBody.appendChild(span);
+    li.appendChild(divBody);
+    ul.appendChild(li);
   }
-  table.appendChild(tbody);
 
-  const divBody = document.createElement("div");
-  divBody.className = "collapsible-body";
-  const span = document.createElement("span");
-  span.appendChild(table);
-  divBody.appendChild(span);
-  li.appendChild(divBody);
-  ul.appendChild(li);
+  gnarlyTable.appendChild(ul);
 }
-
-gnarlyTable.appendChild(ul);
-
-M.AutoInit();
-document.addEventListener('DOMContentLoaded', function() {
-  M.Collapsible.init(document.querySelectorAll('.collapsible'), []);
-  M.Modal.init(document.querySelectorAll('.modal'), []);
-  updateCollectedGnarlies();
-});
 
 function loadEventListeners() {
   filter.addEventListener('keyup', filterTasks);
