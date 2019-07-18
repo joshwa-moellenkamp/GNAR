@@ -90,30 +90,6 @@ function loadEventListeners() {
   filter.addEventListener('keyup', filterTasks);
 }
 
-function tally(id) {
-  let g = gnarlies[id];
-  let msg;
-  switch(g.category) {
-    case "line":
-      msg = `Did you claim ${g.description} line '${g.name}'?`;
-      break;
-    case "penalty":
-      msg = `Do you deserve penalty '${g.name.split(':')[1].trim()}' because you '${g.description}'?`;
-      break;
-    case "trick bonus":
-      msg = `Did you earn trick bonus '${g.name}'?`;
-      break;
-    case "extra credit (unlimited)":
-    case "extra credit (yearly)":
-    case "extra credit (daily)":
-      msg = `Did you earn extra credit item '${g.name.split(':')[1].trim()}'?`;
-      break;
-  }
-  if(confirm(msg)) {
-    updateScore(g.points);
-  }
-}
-
 function updateCollectedGnarlies() {
   if(earnedGnarlies.length === 0)
   {
