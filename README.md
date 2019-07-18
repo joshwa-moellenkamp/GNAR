@@ -8,7 +8,6 @@ A tool used to measure your ego on the mountain or out in life.
 * Allow users to toggle to points sort
 * Use the extra credit daily, yearly, unlimited data to drive how many times a user can select an item
 * Track down the actual GNAR chapter from Squallywood
-* JSON data should live in another file
 * Mountain-specific items
   * Does John Garnsey still work for Vail?
   * Include Winter Park rules from Facebook
